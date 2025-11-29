@@ -1,0 +1,27 @@
+.overlapbox {
+    position: absolute;
+    opacity: 0.8;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+    background-color: #00000000;
+    z-index: 9999;
+    overflow: hidden;
+}
+.overlapbox .scrollarea{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.overlapbox .hidetext {
+    color: #00000000;
+}
+
+.overlapbox .implement {
+    color: grey;
+}

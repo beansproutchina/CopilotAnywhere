@@ -1,0 +1,27 @@
+body{
+    width: 360px;
+    height: 240px;
+    padding: 16px;
+    text-align: center;
+}
+
+input{
+    width: 75%;
+    float:right;
+    color: purple
+}
+
+input[type="checkbox"]{
+    accent-color: purple;
+}
+
+button{
+    width: 100%;
+    display: block;
+    background-color: hsl(300, 76%, 72%);
+    font-size: large;
+}
+
+button:hover{
+    background-color: hsl(300, 76%, 66%);
+}

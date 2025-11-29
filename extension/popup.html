@@ -1,0 +1,17 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="popup.css"></link>
+    </head>
+<body>
+    <div id="app">
+        <h1>{{ title }}</h1>
+        <p>{{desc}}</p>
+        <p>==================设置==================</p>
+        <p>启用补全: <input type="checkbox" v-model="implementEnabled"></p>
+        <p>API PATH: <input type="input" v-model="apiPath"></p>
+        <p><button @click="save">保存设置</button></p>
+    </div>
+    <script type="module" src="./popup.js"></script>
+</body>
+</html>

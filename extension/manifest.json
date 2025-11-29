@@ -1,0 +1,26 @@
+{
+    "manifest_version": 2,
+    "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+    "name": "Copilot Anywhere",
+    "description": "Copilot Anywhere",
+    "version": "1.0.0",
+    "browser_action": {
+        "default_popup": "popup.html"
+    },
+    "permissions": [
+        "storage"
+    ],
+    "content_scripts": [
+        {
+            "matches": ["<all_urls>"],
+            "js": ["insert.js"],
+            "css": ["insert.css"],
+            "run_at": "document_end"
+        }
+    ],
+    "background": {
+        "scripts": ["background.js"],
+        "persistent": true
+    }
+
+}
