@@ -1,6 +1,6 @@
 let lang = 'javascript';
 let filename = 'example.js';
-let apiPath = 'http://localhost:54259/implement';
+let apiPath = 'http://localhost:54259/complement';
 let enabled = true;
 const debounce = (func, wait) => {
     let timeout;
@@ -18,19 +18,19 @@ class Copilot {
     overlapBox;
     overlapBoxScroll;
     overlapBoxTextBefore;
-    overlapBoxTextImplement;
-    hasImplement = false;
+    overlapBoxTextComplement;
+    hasComplement = false;
     destroyed = false;
     constructor(textarea) {
         this.textarea = textarea;
         let debounced = debounce(this.handleInput.bind(this), 1000)
         this.textarea.addEventListener('input', () => {
             if (this.destroyed) return;
-            this.hideImplement();
+            this.hideComplement();
             debounced();
         });
         this.textarea.addEventListener('blur', () => {
-            this.hideImplement();
+            this.hideComplement();
         });
         this.overlapBox = document.createElement('div');
         this.overlapBox.style.fontSize = window.getComputedStyle(this.textarea).fontSize;
@@ -43,11 +43,11 @@ class Copilot {
         this.overlapBoxTextBefore = document.createElement('span');
         this.overlapBoxTextBefore.className = 'hidetext';
         this.overlapBoxScroll.appendChild(this.overlapBoxTextBefore);
-        this.overlapBoxTextImplement = document.createElement('span');
-        this.overlapBoxTextImplement.className = 'implement';
-        this.overlapBoxScroll.appendChild(this.overlapBoxTextImplement);
+        this.overlapBoxTextComplement = document.createElement('span');
+        this.overlapBoxTextComplement.className = 'complement';
+        this.overlapBoxScroll.appendChild(this.overlapBoxTextComplement);
         this.overlapBox.style.display = 'none';
-        this.hasImplement = false;
+        this.hasComplement = false;
         setTimeout(() => {
             document.body.appendChild(this.overlapBox);
             document.addEventListener('keydown', this.handleKeyDown.bind(this));
@@ -55,34 +55,34 @@ class Copilot {
     }
     handleKeyDown(event) {
         if (this.destroyed || !enabled) return;
-        if (this.hasImplement) {
+        if (this.hasComplement) {
             if (event.keyCode === 9) { // 检测Tab键
                 event.preventDefault();
                 const cursorPosition = this.textarea.selectionStart;
-                const implementText = this.overlapBoxTextImplement.innerText;
+                const complementText = this.overlapBoxTextComplement.innerText;
                 const text = this.textarea.value;
-                const newText = text.slice(0, cursorPosition) + implementText + text.slice(cursorPosition);
+                const newText = text.slice(0, cursorPosition) + complementText + text.slice(cursorPosition);
                 this.textarea.value = newText;
-                this.textarea.selectionStart = this.textarea.selectionEnd = cursorPosition + implementText.length;
-                this.hideImplement();
+                this.textarea.selectionStart = this.textarea.selectionEnd = cursorPosition + complementText.length;
+                this.hideComplement();
             }
             else if (event.keyCode === 27) { // 检测Esc键
                 event.preventDefault();
-                this.hideImplement();
+                this.hideComplement();
             }
         }
     }
     async handleInput() {
         if (this.destroyed || !enabled) return;
         const text = this.textarea.value;
-        this.hideImplement();
+        this.hideComplement();
         if (text.length < 3) {
             return;
         }
         const cursorPosition = this.textarea.selectionStart;
         const prompt = text.slice(0, cursorPosition) + `<FillHere>` + text.slice(cursorPosition);
         chrome.runtime.sendMessage({
-            type: 'startImplement'
+            type: 'startComplement'
         });
         filename = document.title;
         lang = "编程";
@@ -91,7 +91,7 @@ class Copilot {
             if (document.querySelector("#reply-title")) {
                 filename = document.querySelector("#reply-title").value || '[未命名帖子]';
             } else if (document.querySelector(".topic-link")) {
-                filename = "回复：" + (document.querySelector(".topic-title").innerText || '[未命名帖子]');
+                filename = "回复：" + (document.querySelector(".topic-link").innerText || '[未命名帖子]');
             }
         } else if (["chat.openai.com", "chat.deepseek.com", "chat.qwen.ai", "www.doubao.com", "www.kimi.com"].includes(window.location.hostname)) {
             lang = 'ai';
@@ -108,17 +108,17 @@ class Copilot {
                 'Content-Type': 'application/json'
             },
         })
-        const implement = await f.text();
-        this.showImplement(implement, cursorPosition);
+        const complement = await f.text();
+        this.showComplement(complement, cursorPosition);
     }
 
-    showImplement(implement, cursorPosition) {
+    showComplement(complement, cursorPosition) {
         chrome.runtime.sendMessage({
-            type: 'receivedImplement'
+            type: 'receivedComplement'
         });
-        if (!this.hasImplement) {
+        if (!this.hasComplement) {
             this.overlapBox.style.display = 'block';
-            this.hasImplement = true;
+            this.hasComplement = true;
         }
         const outerRect = this.textarea.getBoundingClientRect();
         const scroll = {
@@ -156,11 +156,11 @@ class Copilot {
         this.overlapBoxScroll.scrollLeft = scroll.left;
         this.overlapBoxScroll.scrollTop = scroll.top;
         this.overlapBoxTextBefore.innerText = this.textarea.value.slice(0, cursorPosition);
-        this.overlapBoxTextImplement.innerText = implement;
+        this.overlapBoxTextComplement.innerText = complement;
     }
-    hideImplement() {
+    hideComplement() {
         this.overlapBox.style.display = 'none';
-        this.hasImplement = false;
+        this.hasComplement = false;
     }
 
     destroy() {
@@ -195,9 +195,9 @@ updateTextareas = () => {
     console.log('Content script loaded');
     filename = document.title;
     lang = "编程";
-    chrome.storage.sync.get(['implementEnabled', 'apiPath'], (data) => {
-        enabled = data.implementEnabled !== false;
-        apiPath = data.apiPath || 'http://localhost:54259/implement';
+    chrome.storage.sync.get(['complementEnabled', 'apiPath'], (data) => {
+        enabled = data.complementEnabled !== false;
+        apiPath = data.apiPath || 'http://localhost:54259/complement';
     });
     if (enabled) {
         updateTextareas();

@@ -31,7 +31,7 @@ const start = async () => {
         ctx.body = response.choices[0].message.content;
     });
 
-    router.post(`/implement`, async (ctx) => {
+    router.post(`/complement`, async (ctx) => {
         const filename = ctx.request.body.filename || 'example.txt';
         const programmingLang = ctx.request.body.language || 'python';
         const content = ctx.request.body.content || 'This is an example content.<FillHere>';
@@ -68,7 +68,7 @@ const start = async () => {
             ]
         });
         ctx.body = response.choices[0].message.content;
-        console.log('Implement generated for', filename);
+        console.log('Complement generated for', filename);
     });
 
     app.use(router.routes()).use(router.allowedMethods());

@@ -1177,7 +1177,7 @@ const arrayInstrumentations = {
   findLastIndex(fn, thisArg) {
     return apply(this, "findLastIndex", fn, thisArg, void 0, arguments);
   },
-  // flat, flatMap could benefit from ARRAY_ITERATE but are not straight-forward to implement
+  // flat, flatMap could benefit from ARRAY_ITERATE but are not straight-forward to complement
   forEach(fn, thisArg) {
     return apply(this, "forEach", fn, thisArg, void 0, arguments);
   },
@@ -5563,7 +5563,7 @@ function createDevRenderContext(instance) {
       configurable: true,
       enumerable: false,
       get: () => publicPropertiesMap[key](instance),
-      // intercepted by the proxy so no need for implementation,
+      // intercepted by the proxy so no need for complementation,
       // but needed to prevent set errors
       set: NOOP
     });
