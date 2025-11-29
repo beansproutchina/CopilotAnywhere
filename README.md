@@ -1,7 +1,7 @@
 # CopilotAnywhere - AI代码助手浏览器扩展
 CopilotAnywhere 是一个类似于GitHub Copilot的AI代码自动补全工具，但它作为一个浏览器扩展运行，可以在浏览器任何普通的文本框中使用。它特别针对`水源社区`和各种`AI大模型网页版`进行了优化。
 
-![Copilot](./video/copilot1.gif)
+![Copilot](./readme/copilot1.gif)
 
 ## 功能特点
 
@@ -41,7 +41,7 @@ bun run index.js
 ### 3. 配置通信地址
 
 点击扩展图标，在此页面配置后端服务地址，确保浏览器扩展能与后端正常通信。
-![设置界面](image.png)
+![设置界面](./readme/image.png)
 
 ## 未来规划
 
